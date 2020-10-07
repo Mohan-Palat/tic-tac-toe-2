@@ -2,21 +2,33 @@ body {
     background: rgb(220, 220, 245);
     display: flex;
     flex-wrap: wrap;
+    flex-direction: column;
     justify-content: center;
 }
 
 .container {
-    /* width: 300px; */
+    width: 300px;
     height: 300px;
-    /* border: 2px solid black; */
-    margin: auto;
+    border: 2px solid black;
     min-width: 200px;
     margin: 50px auto;
 }
 
 .box {
     background-color: hotpink;
-    width: 32.5%;
+    max-width: 32.5%;
+    min-width: 32%;
     height: 33.5%;
     font-size: 30px;
+}
+
+.restart {
+    border: 2px solid black;
+    margin: auto;
+    /* height: 50px; */
+}
+
+button#restart {
+    /* width: 50px; */
+    font-size: 20px;
 }
