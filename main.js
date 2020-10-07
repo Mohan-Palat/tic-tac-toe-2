@@ -6,6 +6,8 @@ const playerOption = ['X', 'O']
 let player1 = ''
 let player2 = ''
 
+let boardMoves = new Array(9)
+
 // get all boxes and set to ''
 let allBoxes = document.querySelectorAll('.box')
 
@@ -32,9 +34,10 @@ function resetPlayBoard(event) {
     console.log('Game board reset!')
 
     allBoxes.forEach(box => {
-        console.log(`box value: ${box.innerHTML}`)
+        // console.log(`box value: ${box.innerHTML}`)
         box.innerHTML = ''
     })
+    boardMoves = []
 }
 
 let resetButton = document.querySelector('#restart')
@@ -62,3 +65,26 @@ function randomSelectPlayer() {
 function getRandomIndex(maxLength) {
     return Math.floor(Math.random() * Math.floor(maxLength));
 }
+
+// selectBox: determine box selected
+function selectBox() {
+
+    const mainContainer = document.querySelector('.container')
+    const allBoxes = document.querySelectorAll('.box')
+
+    mainContainer.addEventListener('click', (event) => {
+
+      if (event.target.classList.contains('box')) {
+        allBoxes.forEach((elm, index) => {
+          if (elm === event.target) {
+            console.log(`Button Number ${index + 1} Clicked!`)
+            boardMoves.push(index + 1)
+          }
+        })
+      } else {
+        console.log('click on a box!')
+      }
+    })
+}
+
+selectBox()
