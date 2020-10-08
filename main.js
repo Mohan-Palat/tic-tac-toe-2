@@ -1,6 +1,11 @@
 console.log('main js up!')
 
-const winningMoves = []
+// winning matrix
+const winningMoves = [
+    [0, 1, 2],[3, 4, 5],[6, 7, 8],
+    [0, 3, 6],[1, 4, 7],[2, 5, 8],
+    [0, 4, 8],[2, 4, 6]
+]
 
 const playerOption = ['X', 'O']
 let player1 = ''
@@ -98,16 +103,29 @@ function selectBox() {
       if (event.target.classList.contains('box')) {
         allBoxes.forEach((box, index) => {
           if (box === event.target) {
-              console.log(`elm: ${box.value}`)
+            //   console.log(`elm: ${box.value}`)
 
             // set the button to currentPlayer - 'X' or 'O'
             event.target.innerHTML = currentPlayer
-
+            // console.log(event.target.value)
             // disable box after it is selected
             event.target.disabled = true
 
             // add box number to array
-            boardMoves.push(index + 1)
+            // boardMoves.push(index + 1)
+            boardMoves[index] = currentPlayer
+
+            if (currentPlayer === player1) {
+                player1Moves.push(index)
+                player1Moves.sort()
+            } else {
+                player2Moves.push(index)
+                player2Moves.sort()
+            }
+
+            // call validate method
+            validateMoves(currentPlayer)
+
             // switch player to next
             switchPlayer()
           }
@@ -123,4 +141,42 @@ selectBox()
 // switch current player between player1 to player2 and vice versa
 function switchPlayer() {
     currentPlayer = currentPlayer === player1 ? player2 : player1
+}
+
+function validateMoves(validatePlayer) {
+    let winner = false
+    for (moves in winningMoves) {
+        console.log(winningMoves[moves])
+        const move = winningMoves[moves]
+        // console.log('first ' + boardMoves[move[0]])
+        // console.log('second ' + boardMoves[move[1]])
+        // console.log('third ' + boardMoves[move[2]])
+
+        // compare board move values board move to
+        // the winning scenarios predefined in winningMoves
+        // if any row  of 3 in boardMoves has the same X or O
+        // it is the winner
+        let first = boardMoves[move[0]]
+        let second = boardMoves[move[1]]
+        let third = boardMoves[move[2]]
+
+        // check none of the value is not undefined
+        if(first !== undefined || second !== undefined ||third !== undefined) {
+            if(first === second && first === third) {
+                winner = true;
+                alert(`${validatePlayer} is the winner!`)
+            }
+        } else {
+            continue
+        }
+
+    }
+
+    // TODOs
+    // if winner found disable all buttons
+    // highlight winner 
+    // highlight current players turn
+    // who's turn it is next
+    // determine draw scenario
+    
 }
