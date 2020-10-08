@@ -51,8 +51,8 @@ function resetPlayBoard(event) {
     console.log('Game board reset!')
 
     allBoxes.forEach(box => {
-        // set all boxes to E - empty 
-        box.innerHTML = 'E'
+        // set all boxes to emoji 
+        box.innerHTML = '&#129313;'
         box.disabled = false
     })
     // boardMoves = []
