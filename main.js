@@ -56,6 +56,12 @@ function init() {
 
     // call to determine X or O for players
     randomSelectPlayer()
+
+    // set count values to zero 
+    gameRounds = 0
+    p1WinCount = 0
+    p2WinCount = 0
+    drawCount = 0
 }
 
 // Call the initialization function
@@ -312,11 +318,28 @@ function winCounts(player) {
         drawCount++
     }
     
-    // console.log(`Player 1 wins: ${p1WinCount} \nPlayer 2 wins: ${p2WinCount} 
-    // \nDraw count: ${drawCount}`)
+    setCountValues()
+}
+
+let resetScoreButton = document.querySelector('#reScore')
+
+// add Event Listener to reset score button
+resetScoreButton.addEventListener('click', resetScore)
+
+// set all counts to zero 0
+function resetScore(event) {
+    console.log('reset all scores!')
+    init()
+
+    setCountValues()
+}
+
+// set count values on html element
+function setCountValues() {
 
     document.querySelector('#span-games').innerText = gameRounds;
     document.querySelector('#span-p1').innerText = `${p1WinCount}`;
     document.querySelector('#span-p2').innerText = `${p2WinCount}`;
     document.querySelector('#span-draw').innerText = `${drawCount}`;
+
 }
