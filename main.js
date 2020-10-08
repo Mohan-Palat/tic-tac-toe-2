@@ -85,7 +85,7 @@ function resetPlayBoard(event) {
 
 // reset style on player buttons 
 function refreshPlayer() {
-    player1Display.style.backgroundColor = 'rgb(14, 233, 149)'
+    player1Display.classList.add('active')
     player1Display.disabled = false
     
     player2Display.disabled = false
@@ -144,17 +144,9 @@ function selectBox() {
             // disable box after it is selected
             event.target.disabled = true
 
-            // add box number to array
-            // boardMoves.push(index + 1)
+            // add X or O to box moves array
+            // this indicates the selected indices
             boardMoves[index] = currentPlayer
-
-            if (currentPlayer === player1) {
-                player1Moves.push(index)
-                player1Moves.sort()
-            } else {
-                player2Moves.push(index)
-                player2Moves.sort()
-            }
 
             // call validate moves after each play
             validateMoves(playerText)
@@ -291,8 +283,9 @@ function setGameMessage(message) {
 // remove active class from both players
 function removeActiveClass() {
     console.log('In removeActiveClass')
+    document.querySelector('#player-one').classList.remove('active')
     document.querySelectorAll('.player').forEach(player => {
         player.disabled = true
-        player.style.backgroundColor = 'transparent'
+        player.classList.remove('active')
     })
 }
