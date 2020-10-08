@@ -55,7 +55,7 @@ function resetPlayBoard(event) {
         box.innerHTML = '&#129313;'
         box.disabled = false
     })
-    // boardMoves = []
+    boardMoves = []
     randomSelectPlayer()
 }
 
@@ -164,6 +164,9 @@ function validateMoves(validatePlayer) {
         if(first !== undefined || second !== undefined ||third !== undefined) {
             if(first === second && first === third) {
                 winner = true;
+
+                // call to disable all boxes if there is a winner 
+                disableBoxes()
                 alert(`${validatePlayer} is the winner!`)
             }
         } else {
@@ -173,10 +176,16 @@ function validateMoves(validatePlayer) {
     }
 
     // TODOs
-    // if winner found disable all buttons
     // highlight winner 
     // highlight current players turn
     // who's turn it is next
     // determine draw scenario
     
+}
+
+// disable all boxes 
+function disableBoxes() {
+    allBoxes.forEach(box => {
+        box.disabled = true
+    })
 }
