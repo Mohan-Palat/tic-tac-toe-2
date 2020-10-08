@@ -7,9 +7,16 @@ const winningMoves = [
     [0, 4, 8],[2, 4, 6]
 ]
 
+// maximum number of plays per game/round
+const MAX_PLAY_MOVES = 9
+
 const playerOption = ['X', 'O']
 let player1 = ''
 let player2 = ''
+let playerText = 'Player 1'
+
+let gameOver = false
+let drawGame = false
 
 // player moves should be 5 or less per game
 let player1Moves = []
@@ -21,6 +28,9 @@ let currentPlayer = ''
 
 // should not be more that 9
 let boardMoves = []
+
+// keep track of the number of plays or validation
+let validateCount = 0
 
 // get all boxes
 let allBoxes = document.querySelectorAll('.box')
@@ -55,8 +65,30 @@ function resetPlayBoard(event) {
         box.innerHTML = '&#129313;'
         box.disabled = false
     })
+
+    // call to refresh player style on page
+    refreshPlayer()
+
+    validateCount = 0
+    playerText = 'Player 1'
+
+    gameOver = false
+    drawGame = false
+    // setGameMessage('')
+    setGameMessage(`${playerText}'s turn!`)
+    document.querySelector('#winner').style.display = 'none'
+
     boardMoves = []
     randomSelectPlayer()
+}
+
+
+// reset style on player buttons 
+function refreshPlayer() {
+    player1Display.style.backgroundColor = 'rgb(14, 233, 149)'
+    player1Display.disabled = false
+    
+    player2Display.disabled = false
 }
 
 let resetButton = document.querySelector('#restart')
@@ -80,6 +112,7 @@ function randomSelectPlayer() {
     
     // player1 is current player when game starts/restarted
     currentPlayer = player1
+    highlightActivePlayer()
 
     // assign X and O to player1 and player2
     player1Display.innerHTML = `Player 1: ${player1}`
@@ -123,15 +156,15 @@ function selectBox() {
                 player2Moves.sort()
             }
 
-            // call validate method
-            validateMoves(currentPlayer)
+            // call validate moves after each play
+            validateMoves(playerText)
 
             // switch player to next
             switchPlayer()
           }
         })
       } else {
-        console.log('click on a box!')
+        console.log('click on a box! \n watch your cursor player!')
       }
     })
 }
@@ -140,13 +173,46 @@ selectBox()
 
 // switch current player between player1 to player2 and vice versa
 function switchPlayer() {
-    currentPlayer = currentPlayer === player1 ? player2 : player1
+    // console.log('In switchPlayer')
+    if (currentPlayer === player1) {
+        currentPlayer = player2
+        playerText = 'Player 2'
+    } else {
+        currentPlayer = player1
+        playerText = 'Player 1'
+    }
+
+    highlightActivePlayer()
 }
 
+// highlight current active player
+function highlightActivePlayer() {
+    if(currentPlayer === player1) {
+        document.querySelector('#player-one').classList.add('active')
+        document.querySelector('#player-two').classList.remove('active')
+        
+    } else {
+        document.querySelector('#player-two').classList.add('active')
+        document.querySelector('#player-one').classList.remove('active')
+    }
+
+    // check if game is over before displaying message
+    gameOver || drawGame ? '' : setGameMessage(`${playerText}'s turn!`)
+}
+
+// method to validate every move
+// compares winning scenario array with current moves 
+// by both players. If there is a winner return otherwise
+// keep playing 
 function validateMoves(validatePlayer) {
+    validateCount++
+
+    // keep track if there is a winner or not
     let winner = false
+
+    // loop through winning moves array
     for (moves in winningMoves) {
-        console.log(winningMoves[moves])
+        // console.log(winningMoves[moves])
         const move = winningMoves[moves]
         // console.log('first ' + boardMoves[move[0]])
         // console.log('second ' + boardMoves[move[1]])
@@ -164,28 +230,69 @@ function validateMoves(validatePlayer) {
         if(first !== undefined || second !== undefined ||third !== undefined) {
             if(first === second && first === third) {
                 winner = true;
+                gameOver = true
 
                 // call to disable all boxes if there is a winner 
                 disableBoxes()
-                alert(`${validatePlayer} is the winner!`)
+
+                // set win message 
+                setGameMessage(`${validatePlayer} is the winner! &#127881; &#127882;`)
+                
+                // remove active style class from player buttons 
+                removeActiveClass()
+
+                return
             }
         } else {
+            // there is no winner continue playing 
+            winner = false
             continue
         }
-
+        console.log(`validate count: ${validateCount}`)
     }
 
-    // TODOs
-    // highlight winner 
-    // highlight current players turn
-    // who's turn it is next
-    // determine draw scenario
-    
+    // if no winner and play count is equal to max
+    // the game is a draw
+    if(!winner && validateCount === MAX_PLAY_MOVES) {
+        console.log('It is a draw')
+        drawGame = true
+
+        // send draw message 
+        setGameMessage('It is the DRAW!')
+
+        // remove active style class from player buttons 
+        removeActiveClass()
+    }  
 }
 
-// disable all boxes 
+// disable all boxes on board
 function disableBoxes() {
     allBoxes.forEach(box => {
         box.disabled = true
+    })
+}
+
+// show/attach message win, lose, draw to element
+// hide and show relevant div
+function setGameMessage(message) {
+    let nextPlay = document.querySelector('#nextPlayer')
+    let winner = document.querySelector('#winner')
+    if (gameOver || drawGame) {
+        winner.style.display = 'block'
+        winner.innerHTML = message
+        nextPlay.style.display = 'none'
+    } 
+    else {
+        nextPlay.innerHTML = message
+        nextPlay.style.display = 'block'
+    }
+}
+
+// remove active class from both players
+function removeActiveClass() {
+    console.log('In removeActiveClass')
+    document.querySelectorAll('.player').forEach(player => {
+        player.disabled = true
+        player.style.backgroundColor = 'transparent'
     })
 }

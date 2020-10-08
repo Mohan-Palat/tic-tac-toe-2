@@ -32,3 +32,28 @@ button#restart {
     /* width: 50px; */
     font-size: 20px;
 }
+
+.active {
+    background: rgb(14, 233, 149);
+}
+
+.div-player {
+    display: flex;
+    justify-content: space-around;
+}
+
+@keyframes blink {
+    0%, 100% { opacity: 0; }
+    50% { opacity: 1; }
+  }
+  
+#winner {
+    text-align: center;
+    color: rgb(245, 45, 10);
+    animation: blink 1.5s infinite;
+}
+
+#nextPlayer{
+    text-align: center;
+    color: blue;
+}
