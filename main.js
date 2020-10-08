@@ -18,10 +18,6 @@ let playerText = 'Player 1'
 let gameOver = false
 let drawGame = false
 
-// player moves should be 5 or less per game
-let player1Moves = []
-let player2Moves = []
-
 // this is assigned X or O dependending on 
 // whether current player is using X or O
 let currentPlayer = ''
@@ -180,12 +176,11 @@ function switchPlayer() {
 // highlight current active player
 function highlightActivePlayer() {
     if(currentPlayer === player1) {
-        document.querySelector('#player-one').classList.add('active')
-        document.querySelector('#player-two').classList.remove('active')
-        
+        player1Display.classList.add('active')
+        player2Display.classList.remove('active')
     } else {
-        document.querySelector('#player-two').classList.add('active')
-        document.querySelector('#player-one').classList.remove('active')
+        player1Display.classList.remove('active')
+        player2Display.classList.add('active')
     }
 
     // check if game is over before displaying message
@@ -282,7 +277,7 @@ function setGameMessage(message) {
 
 // remove active class from both players
 function removeActiveClass() {
-    console.log('In removeActiveClass')
+    // console.log('In removeActiveClass')
     document.querySelector('#player-one').classList.remove('active')
     document.querySelectorAll('.player').forEach(player => {
         player.disabled = true
