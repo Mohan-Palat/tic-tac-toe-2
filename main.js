@@ -5,13 +5,19 @@ const winningMoves = []
 const playerOption = ['X', 'O']
 let player1 = ''
 let player2 = ''
+
+// player moves should be 5 or less per game
 let player1Moves = []
 let player2Moves = []
+
+// this is assigned X or O dependending on 
+// whether current player is using X or O
 let currentPlayer = ''
 
+// should not be more that 9
 let boardMoves = []
 
-// get all boxes and set to ''
+// get all boxes
 let allBoxes = document.querySelectorAll('.box')
 
 const player1Display = document.querySelector('#player-one')
@@ -42,6 +48,7 @@ function resetPlayBoard(event) {
     allBoxes.forEach(box => {
         // set all boxes to E - empty 
         box.innerHTML = 'E'
+        box.disabled = false
     })
     // boardMoves = []
     randomSelectPlayer()
@@ -95,6 +102,11 @@ function selectBox() {
 
             // set the button to currentPlayer - 'X' or 'O'
             event.target.innerHTML = currentPlayer
+
+            // disable box after it is selected
+            event.target.disabled = true
+
+            // add box number to array
             boardMoves.push(index + 1)
             // switch player to next
             switchPlayer()
