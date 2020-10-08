@@ -7,6 +7,16 @@ const winningMoves = [
     [0, 4, 8],[2, 4, 6]
 ]
 
+// can keep track separately or sum up wins and draw from 
+// players
+let gameRounds = 0
+// gameRounds = p1WinCount + p2WinCount + drawCount
+
+let p1WinCount = 0
+let p2WinCount = 0
+let drawCount = 0
+
+
 // maximum number of plays per game/round
 const MAX_PLAY_MOVES = 9
 
@@ -218,6 +228,7 @@ function validateMoves(validatePlayer) {
             if(first === second && first === third) {
                 winner = true;
                 gameOver = true
+                // gameRounds++
 
                 // call to disable all boxes if there is a winner 
                 disableBoxes()
@@ -225,6 +236,8 @@ function validateMoves(validatePlayer) {
                 // set win message 
                 setGameMessage(`${validatePlayer} is the winner! &#127881; &#127882;`)
                 
+                // count wins for different players
+                winCounts(validatePlayer)
                 // remove active style class from player buttons 
                 removeActiveClass()
 
@@ -235,7 +248,7 @@ function validateMoves(validatePlayer) {
             winner = false
             continue
         }
-        console.log(`validate count: ${validateCount}`)
+        // console.log(`validate count: ${validateCount}`)
     }
 
     // if no winner and play count is equal to max
@@ -243,6 +256,9 @@ function validateMoves(validatePlayer) {
     if(!winner && validateCount === MAX_PLAY_MOVES) {
         console.log('It is a draw')
         drawGame = true
+        // drawCount++
+        // gameRounds++
+        winCounts("draw")
 
         // send draw message 
         setGameMessage('It is the DRAW!')
@@ -283,4 +299,24 @@ function removeActiveClass() {
         player.disabled = true
         player.classList.remove('active')
     })
+}
+
+// keep track of wins and draws and display on page
+function winCounts(player) {
+    console.log(` winner ${player}`)
+    gameRounds++
+
+    if(!drawGame) {
+        player === 'Player 1' ? p1WinCount++ : p2WinCount++
+    } else {
+        drawCount++
+    }
+    
+    // console.log(`Player 1 wins: ${p1WinCount} \nPlayer 2 wins: ${p2WinCount} 
+    // \nDraw count: ${drawCount}`)
+
+    document.querySelector('#span-games').innerText = gameRounds;
+    document.querySelector('#span-p1').innerText = `${p1WinCount}`;
+    document.querySelector('#span-p2').innerText = `${p2WinCount}`;
+    document.querySelector('#span-draw').innerText = `${drawCount}`;
 }

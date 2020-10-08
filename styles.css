@@ -22,15 +22,18 @@ body {
     font-size: 30px;
 }
 
-.restart {
-    border: 2px solid black;
-    margin: auto;
-    /* height: 50px; */
+.div-player {
+    margin: 10px;
 }
 
-button#restart {
-    /* width: 50px; */
-    font-size: 20px;
+.player, button#restart {
+    font-size: 25px;
+    padding: 5px;
+    margin: 10px;
+}
+
+.restart {
+    margin: auto;
 }
 
 .active {
