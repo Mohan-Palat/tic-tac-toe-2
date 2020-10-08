@@ -22,17 +22,29 @@ body {
     font-size: 30px;
 }
 
+button.box:hover{
+    -webkit-transform: scale(1.2);
+    -ms-transform: scale(1.2);
+    transform: scale(1.2);
+    border-radius: 15px;
+  }
+
+button[disabled]:hover {
+    background: rebeccapurple;
+    transform: scale(1.1);
+}
+
 .div-player {
     margin: 10px;
 }
 
-.player, button#restart {
+.player, button#restart, #reScore {
     font-size: 25px;
     padding: 5px;
     margin: 10px;
 }
 
-.restart {
+.restart, reScore {
     margin: auto;
 }
 
@@ -56,7 +68,7 @@ body {
     animation: blink 1.5s infinite;
 }
 
-#nextPlayer{
+#nextPlayer, .win-lose{
     text-align: center;
     color: blue;
 }
