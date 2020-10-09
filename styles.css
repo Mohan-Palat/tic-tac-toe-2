@@ -9,9 +9,10 @@ body {
 .container {
     width: 300px;
     height: 300px;
-    border: 2px solid black;
+    border: 20px solid rgb(3, 24, 92);
     min-width: 200px;
     margin: 50px auto;
+    border-radius: 10px;
 }
 
 .box {
@@ -20,6 +21,7 @@ body {
     min-width: 32.4%;
     height: 33.5%;
     font-size: 30px;
+    border-radius: 10px;
 }
 
 button.box:hover{
@@ -30,12 +32,15 @@ button.box:hover{
   }
 
 button[disabled]:hover {
-    background: rebeccapurple;
+    background: rgb(84, 72, 190);
+    /* background: rgb(146, 65, 226); */
     transform: scale(1.1);
 }
 
 .div-player {
     margin: 10px;
+    display: flex;
+    justify-content: center;
 }
 
 .player, button#restart, #reScore {
@@ -52,11 +57,6 @@ button[disabled]:hover {
     background: rgb(14, 233, 149);
 }
 
-.div-player {
-    display: flex;
-    justify-content: space-around;
-}
-
 @keyframes blink {
     0%, 100% { opacity: 0; }
     50% { opacity: 1; }
@@ -71,4 +71,11 @@ button[disabled]:hover {
 #nextPlayer, .win-lose{
     text-align: center;
     color: blue;
+}
+/* reduce winner text on smaller screen */
+@media only screen and (max-width: 500px) {
+    #winner {
+        background-color: lightblue;
+        font-size: 25px;
+    }
 }
