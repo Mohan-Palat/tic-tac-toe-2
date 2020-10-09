@@ -78,6 +78,8 @@ function resetPlayBoard(event) {
         box.disabled = false
     })
 
+    confetti.stop()
+
     // call to refresh player style on page
     refreshPlayer()
 
@@ -235,6 +237,7 @@ function validateMoves(validatePlayer) {
                 winner = true;
                 gameOver = true
                 // gameRounds++
+                confetti.start()
 
                 // call to disable all boxes if there is a winner 
                 disableBoxes()
