@@ -147,6 +147,9 @@ function selectBox() {
 
     mainContainer.addEventListener('click', (event) => {
 
+        // call button click sound effect
+        buttonPush.play()
+
       if (event.target.classList.contains('box')) {
         allBoxes.forEach((box, index) => {
           if (box === event.target) {
@@ -238,6 +241,7 @@ function validateMoves(validatePlayer) {
                 gameOver = true
                 // gameRounds++
                 confetti.start()
+                winWin.play()
 
                 // call to disable all boxes if there is a winner 
                 disableBoxes()
@@ -346,3 +350,11 @@ function setCountValues() {
     document.querySelector('#span-draw').innerText = `${drawCount}`;
 
 }
+
+// create button click sound effect 
+var buttonPush = new Audio()
+buttonPush.src = '../audio/Tiny-Button-Push.mp3'
+
+// winners song 
+var winWin = new Audio()
+winWin.src = '../audio/all-i-do-is-win.mp3'
