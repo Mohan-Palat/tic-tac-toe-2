@@ -378,7 +378,8 @@ playerButtons.forEach(button => {
 function displaySettings(event) {
     console.log(`buttons ${event.target.innerHTML}`);
     console.log(`buttons ${event.target.id}`);
-    document.querySelector('.settings').style.display = 'block'
+    document.querySelector('.overlay').style.display = 'block'
+    document.querySelector('.modal').style.display = 'block'
     profileChange = event.target.id
 
     event.target.id === 'player-one'
@@ -391,24 +392,39 @@ function buttonSettings(event) {
     let button = event.target.value
 
     let profile = document.querySelector('#profile').value
-    console.log(`profile ${profile}`);
+    console.log(`profile => ${profile}`);
 
-    if(profileChange === 'player-one') {
-        player1GameName = profile
-        document.querySelector(`#${profileChange}`).textContent = `${profile}: ${player1}`
+    // check if input is empty or not 
+    // if input is empty just close modal 
+    if(profile === '' || profile === undefined || profile === null) {
+        console.log(`profile is empty!`);
+        hideOverlayModal()
     } else {
-        player2GameName = profile
-        document.querySelector(`#${profileChange}`).textContent = `${profile}: ${player2}`
-    }
-    setGameMessage(`${player1GameName}'s turn!`)
 
-    // hide settings
-    document.querySelector('#profile').value = ''
-    document.querySelector('.settings').style.display = 'none'
+        if(profileChange === 'player-one') {
+            player1GameName = profile
+            document.querySelector(`#${profileChange}`).textContent = `${profile}: ${player1}`
+        } else {
+            player2GameName = profile
+            document.querySelector(`#${profileChange}`).textContent = `${profile}: ${player2}`
+        }
+        setGameMessage(`${player1GameName}'s turn!`)
+    
+        // call to hide settings
+        hideOverlayModal()
+    }
+
 }
 
 const setSubmitButton = document.querySelector('#setSubmit')
 setSubmitButton.addEventListener('click', buttonSettings)
+
+// hide overlay and modal 
+function hideOverlayModal() {
+    document.querySelector('#profile').value = ''
+    document.querySelector('.overlay').style.display = 'none'
+    document.querySelector('.modal').style.display = 'none'
+}
 
 // disable player button when game started.
 // player should not be able to update name 
