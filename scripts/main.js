@@ -25,6 +25,9 @@ let player1 = ''
 let player2 = ''
 let playerText = 'Player 1'
 
+let player1GameName = 'Player 1'
+let player2GameName = 'Player 2'
+
 let gameOver = false
 let drawGame = false
 
@@ -83,8 +86,11 @@ function resetPlayBoard(event) {
     // call to refresh player style on page
     refreshPlayer()
 
+    player1GameName = 'Player 1'
+    player2GameName = 'Player 2'
+
     validateCount = 0
-    playerText = 'Player 1'
+    playerText = player1GameName
 
     gameOver = false
     drawGame = false
@@ -129,8 +135,8 @@ function randomSelectPlayer() {
     highlightActivePlayer()
 
     // assign X and O to player1 and player2
-    player1Display.innerHTML = `Player 1: ${player1}`
-    player2Display.innerHTML = `Player 2: ${player2}`
+    player1Display.innerHTML = `${player1GameName}: ${player1}`
+    player2Display.innerHTML = `${player2GameName}: ${player2}`
 }
 
 // Based on the max length of the Array. Return a random items index
@@ -185,10 +191,10 @@ function switchPlayer() {
     // console.log('In switchPlayer')
     if (currentPlayer === player1) {
         currentPlayer = player2
-        playerText = 'Player 2'
+        playerText = player2GameName
     } else {
         currentPlayer = player1
-        playerText = 'Player 1'
+        playerText = player1GameName
     }
 
     highlightActivePlayer()
@@ -278,7 +284,10 @@ function validateMoves(validatePlayer) {
 
         // remove active style class from player buttons 
         removeActiveClass()
-    }  
+    }
+    
+    // call to disable player button when game is in progress
+    disablePlayerbutton()    
 }
 
 // disable all boxes on board
@@ -320,7 +329,7 @@ function winCounts(player) {
     gameRounds++
 
     if(!drawGame) {
-        player === 'Player 1' ? p1WinCount++ : p2WinCount++
+        player === player1GameName ? p1WinCount++ : p2WinCount++
     } else {
         drawCount++
     }
@@ -358,3 +367,63 @@ buttonPush.src = '../audio/Tiny-Button-Push.mp3'
 // winners song 
 var winWin = new Audio()
 winWin.src = '../audio/all-i-do-is-win.mp3'
+
+const playerButtons = document.querySelectorAll('.player')
+
+// add Event Listener to all buttons 
+playerButtons.forEach(button => {
+    button.addEventListener('click', displaySettings)
+})
+
+function displaySettings(event) {
+    console.log(`buttons ${event.target.innerHTML}`);
+    console.log(`buttons ${event.target.id}`);
+    document.querySelector('.settings').style.display = 'block'
+    profileChange = event.target.id
+
+    event.target.id === 'player-one'
+}
+
+let profileChange = ''
+// display settings page/div
+function buttonSettings(event) {
+    console.log(`buttons ${event.target.innerHTML}`);
+    let button = event.target.value
+
+    let profile = document.querySelector('#profile').value
+    console.log(`profile ${profile}`);
+
+    if(profileChange === 'player-one') {
+        player1GameName = profile
+        document.querySelector(`#${profileChange}`).textContent = `${profile}: ${player1}`
+    } else {
+        player2GameName = profile
+        document.querySelector(`#${profileChange}`).textContent = `${profile}: ${player2}`
+    }
+    setGameMessage(`${player1GameName}'s turn!`)
+
+    // hide settings
+    document.querySelector('#profile').value = ''
+    document.querySelector('.settings').style.display = 'none'
+}
+
+const setSubmitButton = document.querySelector('#setSubmit')
+setSubmitButton.addEventListener('click', buttonSettings)
+
+// disable player button when game started.
+// player should not be able to update name 
+// after game starts
+function disablePlayerbutton() {
+    console.log('=> in disablePlayerbutton')
+    if (validateCount > 0) {
+        playerButtons.forEach(player => {
+            player.disabled = true
+        })
+    } else {
+        playerButtons.forEach(player => {
+            player.disabled = false
+        })
+    }
+}
+
+disablePlayerbutton()

@@ -50,13 +50,13 @@ button[disabled]:hover {
     justify-content: center;
 }
 
-.player, button#restart, #reScore {
+.player, button#restart, #reScore, #game-setting {
     font-size: 25px;
     padding: 5px;
     margin: 10px;
 }
 
-.restart, reScore {
+.restart, reScore, #game-setting, .settings {
     margin: auto;
 }
 
@@ -85,4 +85,8 @@ button[disabled]:hover {
         background-color: lightblue;
         font-size: 25px;
     }
+}
+
+.settings {
+    display: none;
 }
