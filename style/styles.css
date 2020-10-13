@@ -50,13 +50,13 @@ button[disabled]:hover {
     justify-content: center;
 }
 
-.player, button#restart, #reScore, #game-setting {
+.player, button#restart, #reScore, #game-setting, .storage {
     font-size: 25px;
     padding: 5px;
     margin: 10px;
 }
 
-.restart, reScore, #game-setting, .settings {
+.restart, reScore, #game-setting, .settings, .storage {
     margin: auto;
 }
 
@@ -75,7 +75,7 @@ button[disabled]:hover {
     animation: blink 1.5s infinite;
 }
 
-#nextPlayer, .win-lose{
+#nextPlayer, .win-lose {
     text-align: center;
     color: blue;
 }

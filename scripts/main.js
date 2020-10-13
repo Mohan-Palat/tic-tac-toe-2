@@ -475,3 +475,88 @@ function disablePlayerbutton() {
 }
 
 disablePlayerbutton()
+
+
+/**
+ * Work in Progress
+ * below code not active
+ */
+// create object to store in localStorage
+// const GameObject = {
+
+//     player1Name: '',
+//     player2Name: '',
+
+//     currentPlayer: currentPlayer,
+
+//     p1WinCount: p1WinCount,
+//     p2WinCount: p2WinCount,
+//     drawCount: drawCount,
+
+//     boardMoves: []// JSON.stringify(boardMoves)
+// }
+
+// save items to local storage 
+function saveToLocalStorage() {
+    localStorage.setItem('player1GameName', player1GameName);
+    localStorage.setItem('player2GameName', player2GameName);
+    localStorage.setItem('currentPlayer', currentPlayer);
+
+    localStorage.setItem('player1', player1);
+    localStorage.setItem('player2', player2);
+
+    localStorage.setItem('gameRounds', gameRounds);
+    localStorage.setItem('p1WinCount', p1WinCount);
+    localStorage.setItem('p2WinCount', p2WinCount);
+    localStorage.setItem('drawCount', drawCount);
+    
+    localStorage.setItem('boardMoves', JSON.stringify(boardMoves));
+}
+
+// get items from LocalStorage
+function getItemsLocalStorage() {
+    // var storedArray = ''
+    // for(let i=0; i<localStorage.length; i++) {
+    //     let key = localStorage.key(i)
+    //     console.log(`${key} => ${localStorage.getItem(key)}`)
+    //     if(key === "boardMoves") {
+    //         storedArray = localStorage.getItem(key)
+    //     }
+    //     console.log(`storedArray: ${storedArray}`)
+    // }
+
+    player1GameName = localStorage.getItem('player1GameName');
+    player2GameName = localStorage.getItem('player2GameName');
+    player1 = localStorage.getItem('player1');
+    player2 = localStorage.getItem('player2');
+
+    document.querySelector(`#player-one`).textContent = `${player1GameName}: ${player1}`
+    document.querySelector(`#player-two`).textContent = `${player2GameName}: ${player2}`
+    
+    currentPlayer = localStorage.getItem('currentPlayer');
+
+    gameRounds = localStorage.getItem('gameRounds');
+    p1WinCount = localStorage.getItem('p1WinCount');
+    p2WinCount = localStorage.getItem('p2WinCount');
+    drawCount = localStorage.getItem('drawCount');
+    setCountValues(gameRounds, p1WinCount, p2WinCount, drawCount)
+
+    let boardMovesArray = localStorage.getItem("boardMoves");
+    boardMoves = JSON.parse(boardMovesArray);
+
+    console.log(`boardMoves: ${boardMoves}`)
+}
+
+// delete everything in localStorage
+function refreshLocalStorage() {
+    localStorage.clear()
+    console.log('Local Storage cleared!')
+}
+
+// get Local Storage
+const getStorageButton = document.querySelector('#getLocalStorage')
+getStorageButton.addEventListener('click', getItemsLocalStorage)
+
+// clear Local Storage
+const clearStorageButton = document.querySelector('#clearLocalStorage')
+clearStorageButton.addEventListener('click', refreshLocalStorage)
