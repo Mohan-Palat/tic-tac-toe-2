@@ -61,10 +61,7 @@ function init() {
     randomSelectPlayer()
 
     // set count values to zero 
-    gameRounds = 0
-    p1WinCount = 0
-    p2WinCount = 0
-    drawCount = 0
+    setDefaultScoresToZero()
 }
 
 // Call the initialization function
@@ -85,9 +82,6 @@ function resetPlayBoard(event) {
 
     // call to refresh player style on page
     refreshPlayer()
-
-    player1GameName = 'Player 1'
-    player2GameName = 'Player 2'
 
     validateCount = 0
     playerText = player1GameName
@@ -128,7 +122,8 @@ function randomSelectPlayer() {
         player2 = playerOption[0]
     }
     
-    console.log(`player1: ${player1}  <==> player2: ${player2} `)
+    console.log(`${player1GameName}: ${player1}  <==> ${player2GameName}: ${player2}`)
+    // console.log(`player1: ${player1}  <==> player2: ${player2} `)
     
     // player1 is current player when game starts/restarted
     currentPlayer = player1
@@ -176,6 +171,9 @@ function selectBox() {
 
             // switch player to next
             switchPlayer()
+
+            // save to localStorage
+            // saveToLocalStorage()
           }
         })
       } else {
@@ -345,19 +343,49 @@ resetScoreButton.addEventListener('click', resetScore)
 // set all counts to zero 0
 function resetScore(event) {
     console.log('reset all scores!')
+    // call to set player names to default
+    resetPlayerNames()
+
+    // call to initialize board
     init()
 
+    // set display values
     setCountValues()
 }
 
+function setDefaultScoresToZero() {
+    gameRounds = 0
+    p1WinCount = 0
+    p2WinCount = 0
+    drawCount = 0
+}
+
 // set count values on html element
-function setCountValues() {
+// Used values passed or global count values
+function setCountValues(gameRoundVal, p1WinCountVal, p2WinCountVal, drawCountVal) {
+    if (gameRoundVal && p1WinCountVal && p2WinCountVal && drawCountVal) {
+        console.log('using values passed to method!')
+        document.querySelector('#span-games').innerText = gameRoundVal;
+        document.querySelector('#span-p1').innerText = `${p1WinCountVal}`;
+        document.querySelector('#span-p2').innerText = `${p2WinCountVal}`;
+        document.querySelector('#span-draw').innerText = `${drawCountVal}`;
+    } else {
+        console.log('using global values!')
+        document.querySelector('#span-games').innerText = gameRounds;
+        document.querySelector('#span-p1').innerText = `${p1WinCount}`;
+        document.querySelector('#span-p2').innerText = `${p2WinCount}`;
+        document.querySelector('#span-draw').innerText = `${drawCount}`;
+    }
 
-    document.querySelector('#span-games').innerText = gameRounds;
-    document.querySelector('#span-p1').innerText = `${p1WinCount}`;
-    document.querySelector('#span-p2').innerText = `${p2WinCount}`;
-    document.querySelector('#span-draw').innerText = `${drawCount}`;
+    // call to reset player names to default
+    // resetPlayerNames()
+}
 
+// reset player names to default
+function resetPlayerNames() {
+    // reset player names
+    player1GameName = 'Player 1'
+    player2GameName = 'Player 2'
 }
 
 // create button click sound effect 
@@ -426,11 +454,15 @@ function hideOverlayModal() {
     document.querySelector('.modal').style.display = 'none'
 }
 
+// cancel and hide player profile modal & overlay
+const setCancelButton = document.querySelector('#setCancel')
+setCancelButton.addEventListener('click', hideOverlayModal)
+
 // disable player button when game started.
 // player should not be able to update name 
 // after game starts
 function disablePlayerbutton() {
-    console.log('=> in disablePlayerbutton')
+    // console.log('=> in disablePlayerbutton')
     if (validateCount > 0) {
         playerButtons.forEach(player => {
             player.disabled = true
