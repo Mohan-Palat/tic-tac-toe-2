@@ -390,11 +390,11 @@ function resetPlayerNames() {
 
 // create button click sound effect 
 var buttonPush = new Audio()
-buttonPush.src = '../audio/Tiny-Button-Push.mp3'
+buttonPush.src = '/audio/Tiny-Button-Push.mp3'
 
 // winners song 
 var winWin = new Audio()
-winWin.src = '../audio/all-i-do-is-win.mp3'
+winWin.src = '/audio/all-i-do-is-win.mp3'
 
 const playerButtons = document.querySelectorAll('.player')
 
